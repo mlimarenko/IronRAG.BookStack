@@ -1,0 +1,56 @@
+# BookStack → IronRAG routing rules.
+#
+# Order matters: the first rule whose `match` block fully holds is applied.
+# If no rule matches, the page falls back to `default`. Pages with no match
+# AND no default are recorded as `unrouted` and not pushed to IronRAG.
+#
+# Targets may omit `workspace`; in that case `default.workspace` is used.
+
+default:
+  workspace: 00000000-0000-0000-0000-000000000000
+  library:   00000000-0000-0000-0000-000000000000
+
+rules:
+  - description: "Engineering shelf goes to engineering library"
+    match:
+      shelf: engineering            # shelf slug
+    target:
+      library: 00000000-0000-0000-0000-000000000001
+
+  - description: "Release notes book → release library"
+    match:
+      book: release-notes           # book slug
+    target:
+      library: 00000000-0000-0000-0000-000000000002
+
+  - description: "Specific book by id"
+    match:
+      book_id: 12
+    target:
+      library: 00000000-0000-0000-0000-000000000003
+
+  - description: "Anything tagged 'archive' goes to the cold-storage library"
+    match:
+      tag: archive
+    target:
+      library: 00000000-0000-0000-0000-000000000004
+
+  - description: "Customer-X chapter inside the support book"
+    match:
+      book: support
+      chapter: customer-x
+    target:
+      library: 00000000-0000-0000-0000-000000000005
+
+  - description: "Multi-criterion: pages whose name starts with 'Draft'"
+    match:
+      name_pattern: "^draft"
+    target:
+      library: 00000000-0000-0000-0000-000000000006
+
+  - description: "Cross-workspace: route a shelf into a different workspace"
+    match:
+      shelf: partner-portal
+    target:
+      workspace: 00000000-0000-0000-0000-000000000099
+      library:   00000000-0000-0000-0000-000000000007

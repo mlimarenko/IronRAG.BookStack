@@ -1,0 +1,23 @@
+.venv/
+__pycache__/
+*.pyc
+.env
+.env.*
+!.env.example
+.env.local
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+dist/
+build/
+*.egg-info/
+.omc/
+.omx/
+
+# Local runtime state
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
+
+# Operator-specific config (only the .example is public)
+routing.yaml

@@ -1,0 +1,53 @@
+[project]
+name = "ironrag-bookstack-connector"
+version = "0.0.2"
+description = "BookStack wiki connector for IronRAG, built on the ironrag-connector framework."
+readme = "README.md"
+requires-python = ">=3.12"
+license = { text = "MIT" }
+authors = [{ name = "IronRAG team" }]
+
+dependencies = [
+    "ironrag-connector",
+    "httpx>=0.27",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.3",
+    "pytest-asyncio>=0.24",
+    "pytest-httpx>=0.32",
+    "ruff>=0.7",
+    "mypy>=1.13",
+    "types-PyYAML>=6.0",
+]
+
+[project.scripts]
+bookstack-connector = "bookstack_connector.__main__:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/bookstack_connector"]
+
+[tool.uv.sources]
+ironrag-connector = { path = "../connectortemplate", editable = true }
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "UP", "B", "SIM", "RUF"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+warn_return_any = true
+warn_unused_configs = true
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
