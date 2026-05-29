@@ -1,6 +1,6 @@
 [project]
 name = "ironrag-bookstack-connector"
-version = "0.0.2"
+version = "0.0.5"
 description = "BookStack wiki connector for IronRAG, built on the ironrag-connector framework."
 readme = "README.md"
 requires-python = ">=3.12"

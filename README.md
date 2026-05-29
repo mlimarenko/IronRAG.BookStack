@@ -2,8 +2,9 @@
 <p align="center"><b>Sync a BookStack wiki into <a href="https://github.com/mlimarenko/IronRAG">IronRAG</a>: periodic polling + webhook intake, multimodal (pages + attachments + images).</b></p>
 
 <p align="center">
+  <a href="https://github.com/mlimarenko/IronRAG.BookStack/releases"><img src="https://img.shields.io/github/v/release/mlimarenko/IronRAG.BookStack?style=flat-square&label=release" alt="Release"></a>
   <a href="./LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square" alt="License"></a>
-  <img src="https://img.shields.io/docker/pulls/pipingspace/ironrag.bookstack?style=flat-square&label=docker%20pulls" alt="Docker pulls">
+  <a href="https://hub.docker.com/r/pipingspace/ironrag.bookstack"><img src="https://img.shields.io/docker/pulls/pipingspace/ironrag.bookstack?style=flat-square&label=docker%20pulls" alt="Docker pulls"></a>
   <img src="https://img.shields.io/badge/python-3.12%2B-blue?style=flat-square" alt="Python">
 </p>
 
@@ -80,6 +81,26 @@ uv run bookstack-connector
 - See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for the page → external_key mapping and failure modes.
 - Manual sweep trigger: `curl -X POST http://localhost:8088/sync/run -H "Authorization: Bearer $ADMIN_BEARER_TOKEN"`.
 - First sweep against a library that already contains BookStack docs: optionally run `uv run python -m bookstack_connector.seed_cursor` once to populate the SQLite cursor from existing IronRAG documents (avoids re-uploading on first pass).
+
+## Deploy with Docker Compose
+
+```bash
+cp .env.example .env.local             # BOOKSTACK_* + IRONRAG_* + ADMIN_BEARER_TOKEN
+cp routing.yaml.example routing.yaml   # map shelves/books → (workspace, library)
+docker compose up -d
+docker compose logs -f
+```
+
+[`docker-compose.yml`](docker-compose.yml) pulls the released image, mounts
+`routing.yaml` read-only, and persists the SQLite cursor in a named volume. With
+the default `RUN_MODE=both` it also serves `/webhook/bookstack` on port 8088
+(published on localhost) — front it with a TLS reverse proxy for public delivery.
+
+## Related
+
+- [IronRAG](https://github.com/mlimarenko/IronRAG) — the RAG backend these connectors feed.
+- [Connector Template](https://github.com/mlimarenko/IronRAG.ConnectorTemplate) — the framework every connector builds on.
+- Connectors: [Confluence](https://github.com/mlimarenko/IronRAG.Confluence) · [BookStack](https://github.com/mlimarenko/IronRAG.BookStack) · [Git Repositories](https://github.com/mlimarenko/IronRAG.GitRepos)
 
 ## License
 

@@ -169,7 +169,7 @@ wheels = [
 
 [[package]]
 name = "ironrag-bookstack-connector"
-version = "0.0.2"
+version = "0.0.5"
 source = { editable = "." }
 dependencies = [
     { name = "httpx" },
@@ -201,7 +201,7 @@ provides-extras = ["dev"]
 
 [[package]]
 name = "ironrag-connector"
-version = "0.0.2"
+version = "0.0.3"
 source = { editable = "../connectortemplate" }
 dependencies = [
     { name = "fastapi" },

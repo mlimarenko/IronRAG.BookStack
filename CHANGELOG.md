@@ -1,5 +1,13 @@
 # BookStack ↔ IronRAG connector — Changelog
 
+## 0.0.5 — 2026-05-30
+
+- Build against framework `v0.0.3`: content-addressed idempotency keys
+  (fixes `409 idempotency_conflict` when a re-exported page is byte-unstable),
+  single-request external-key lookup via the list `search` filter, and
+  cursor document-id persistence on the unchanged path (steady-state sweeps
+  no longer re-scan the IronRAG list endpoint).
+
 ## 0.0.2 — 2026-05-17
 
 - Added per-kind `document_hint` URLs so pages, attachments, and inline images
